@@ -1,0 +1,30 @@
+# Compiled Object files and Executables
+*.o
+*.obj
+*.exe
+*.out
+*.app
+*.dll
+*.lib
+
+# Build and Output directories
+build/
+bin/
+out/
+cmake-build-*/
+
+# CMake specific
+CMakeCache.txt
+CMakeFiles/
+Makefile
+compile_commands.json
+
+# Visual Studio Code specific
+.vscode/
+*.code-workspace
+# Note: If you want to share specific VS Code launch/debug configs, 
+# you can comment out .vscode/ and ignore specific files inside it instead.
+
+# OS generated files
+Thumbs.db
+.DS_Store
