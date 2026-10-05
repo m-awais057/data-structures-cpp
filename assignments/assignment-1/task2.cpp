@@ -2,17 +2,17 @@
 using namespace std;
 
 struct Node {
-  int data;
+  int marks;
   Node* next;
 
   Node(int data, Node* next = nullptr) {
-    this->data = data;
+    this->marks = data;
     this->next = next;
   }
 };
 
-void insertAtTail(Node*& head, Node*& tail, int data) {
-  Node* newNode = new Node(data);
+void insertAtTail(Node*& head, Node*& tail, int marks) {
+  Node* newNode = new Node(marks);
   if (head == nullptr) {
     head = newNode;
     tail = newNode;
@@ -41,45 +41,49 @@ void splitList(Node* head1, Node*& head2) {
   slow->next = nullptr;
 }
 
-Node* merge(Node* left, Node* right) {
-  // Base Cases: If one list is empty, return the other
-  if (left == nullptr)
-    return right;
-  if (right == nullptr)
-    return left;
+void sortDescending(Node*& head) {
 
-  // Recursive sorting (Descending Order)
-  if (left->data >= right->data) {
-    left->next = merge(left->next, right);
-    return left;
-  } else {
-    right->next = merge(left, right->next);
-    return right;
-  }
-}
+  if (head == nullptr || head->next == nullptr)
+    return;
 
-Node* mergeSort(Node* head) {
-  // Base Case: A list of 0 or 1 nodes is already sorted
-  if (head == nullptr || head->next == nullptr) {
-    return head;
-  }
+  bool swapped;
+  do {
+    swapped = false;
+    Node* prev = nullptr;
+    Node* curr = head;
 
-  // Divide
-  Node* secondHalf = nullptr;
-  splitList(head, secondHalf);
+    while (curr->next != nullptr) {
+      Node* nextNode = curr->next;
 
-  // Conquer (Recursively sort the halves)
-  Node* leftSorted = mergeSort(head);
-  Node* rightSorted = mergeSort(secondHalf);
+      if (curr->marks < nextNode->marks) {
 
-  // Merge
-  return merge(leftSorted, rightSorted);
+        // STEP 1 & 2: The Physical Swap
+        curr->next = nextNode->next;
+        nextNode->next = curr;
+
+        // STEP 3: Fix the trailing train
+        if (prev == nullptr) {
+          head = nextNode; // Updating the main starting pointer
+        } else {
+          prev->next = nextNode; // Linking the rest of the train
+        }
+
+        // STEP 4: Step Forward
+        prev = nextNode;
+        swapped = true;
+      } else {
+        // No swap needed. Just take one normal step forward.
+        prev = curr;
+        curr = nextNode;
+      }
+    }
+  } while (swapped);
 }
 
 void printList(Node* head) {
   Node* temp = head;
   while (temp != nullptr) {
-    cout << temp->data << " -> ";
+    cout << temp->marks << " -> ";
     temp = temp->next;
   }
   cout << "NULL" << endl;
@@ -117,8 +121,8 @@ int main() {
   cout << "\nList 2:" << endl;
   printList(head2);
 
-  head1 = mergeSort(head1);
-  head2 = mergeSort(head2);
+  sortDescending(head1);
+  sortDescending(head2);
 
   cout << "\nAfter sorting each half in descending order: " << endl;
   cout << "List 1:" << endl;
