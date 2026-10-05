@@ -41,11 +41,11 @@ void addStopAfter(ShuttleStop*& shuttleHead, ShuttleStop*& tail, int id, int new
     if (currStop->id == id) {
       ShuttleStop* newShuttleStop = new ShuttleStop(newId, newName, distance);
 
-      if (currStop == tail) {
+      if (currStop == tail) { // at end
         newShuttleStop->nextStop = shuttleHead;
         tail->nextStop = newShuttleStop;
         tail = newShuttleStop;
-      } else {
+      } else { // at anywhere in middle
         newShuttleStop->nextStop = currStop->nextStop;
         currStop->nextStop = newShuttleStop;
       }
@@ -70,7 +70,7 @@ void removeStop(ShuttleStop*& shuttleHead, ShuttleStop*& tail, int id) {
 
       if (prevStop == nullptr) { // Handling the Head
 
-        if (currStop == tail) {
+        if (currStop == tail) { // single node
           shuttleHead = nullptr;
           tail = nullptr;
 
