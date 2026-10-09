@@ -134,4 +134,6 @@ int main() {
   // Free the allocated memory
   freeList(head1);
   freeList(head2);
+
+  return 0;
 }

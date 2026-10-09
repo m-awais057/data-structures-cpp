@@ -35,7 +35,7 @@ void openTab(Tab*& head, Tab*& tail, int id, string title, string url) {
   tail = newTab;
 }
 
-void closeTabByID(Tab*& head, Tab*& tail, int id) {
+void closeTabByID(Tab*& head, Tab*& tail, Tab*& activeTab, int id) {
   if (head == nullptr) {
     cout << "No Tabs opened." << endl;
     return;
@@ -60,6 +60,10 @@ void closeTabByID(Tab*& head, Tab*& tail, int id) {
         currTab->next->prev = currTab->prev;
         currTab->prev->next = currTab->next;
       }
+
+      if (activeTab == currTab)
+        activeTab = nullptr;
+
       delete currTab;
       return;
     }
@@ -165,23 +169,23 @@ int main() {
   cout << "\n[Closing Tabs]" << endl;
 
   cout << "Closing Tail (ID 4)..." << endl;
-  closeTabByID(head, tail, 4);
+  closeTabByID(head, tail, activeTab, 4);
 
   cout << "Closing Head (ID 1)..." << endl;
-  closeTabByID(head, tail, 1);
+  closeTabByID(head, tail, activeTab, 1);
 
   cout << "Closing Middle (ID 2)..." << endl;
-  closeTabByID(head, tail, 2);
+  closeTabByID(head, tail, activeTab, 2);
 
   cout << "Closing Non-Existent Tab (ID 100)..." << endl;
-  closeTabByID(head, tail, 100);
+  closeTabByID(head, tail, activeTab, 100);
 
   cout << "\n[Remaining Tabs]" << endl;
   displayTabsForward(head);
 
   // TEST 4: Single Node Deletion (Edge Case)
   cout << "\nClosing the last remaining tab (ID 3)..." << endl;
-  closeTabByID(head, tail, 3);
+  closeTabByID(head, tail, activeTab, 3);
   displayTabsForward(head);
 
   openTab(head, tail, 10, "Canvas", "canvas.comsats.edu.pk");
